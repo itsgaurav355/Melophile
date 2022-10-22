@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="431.0" prefWidth="707.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.melophile.LoggedInController">
+   <children>
+      <SplitPane dividerPositions="0.2593582887700534" prefHeight="431.0" prefWidth="707.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <VBox fx:id="folderBox" prefHeight="394.0" prefWidth="206.0">
+                     <children>
+                        <HBox prefHeight="45.0" prefWidth="152.0">
+                           <children>
+                              <ImageView fitHeight="33.0" fitWidth="35.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@219983.png" />
+                                 </image>
+                              </ImageView>
+<!--                              <Avatar>-->
+<!--                                 <image>-->
+<!--                                    <Image url="@../../../../../../../../Downloads/219983.png" />-->
+<!--                                 </image>-->
+<!--                              </Avatar>-->
+                              <Label fx:id="username" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="175.0" text="Melophile">
+                                 <font>
+                                    <Font name="Times New Roman" size="21.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <ListView fx:id="folderList" prefHeight="323.0" prefWidth="208.0" />
+                        <TextField fx:id="pathField" prefHeight="38.0" prefWidth="208.0" promptText="Enter the Path of Song Folder" />
+                     </children>
+                  </VBox>
+                  <Button fx:id="createFolder" layoutX="-4.0" layoutY="400.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" text="CREATE NEW FOLDER" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="469.0">
+               <children>
+                  <VBox layoutY="30.0" prefHeight="341.0" prefWidth="440.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+                     <children>
+                        <ListView fx:id="songList" editable="true" onEditStart="#switchToScene2">
+                           <padding>
+                              <Insets top="15.0" />
+                           </padding>
+                        </ListView>
+                     </children>
+                  </VBox>
+                  <Button fx:id="browseFileButton" alignment="CENTER" contentDisplay="CENTER" layoutY="364.0" mnemonicParsing="false" onAction="#ChooseFile" prefHeight="30.0" prefWidth="440.0" text="Browse Songs" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <padding>
+                        <Insets left="350.0" />
+                     </padding>
+                  </Button>
+                  <HBox layoutX="2.0" layoutY="-1.0" prefHeight="34.0" prefWidth="526.0" AnchorPane.leftAnchor="-0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button fx:id="menuButton" accessibleRole="MENU_BUTTON" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="File" />
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0" text="Settings" />
+                        <Button fx:id="playButton" mnemonicParsing="false" onAction="#switchToScene2" prefHeight="30.0" prefWidth="54.0" text="play" />
+                        <Button fx:id="logout" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Logout" />
+                        <Label fx:id="email" alignment="CENTER" prefHeight="30.0" prefWidth="217.0" text="Have a nice Day!!">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </HBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
