@@ -35,36 +35,26 @@ public class LoggedInController implements Initializable {
     @FXML
     private Label username;
     @FXML
-    private MediaPlayer player;
-    @FXML
-    private Button playButton;
-    @FXML
-    private Button browseFileButton;
-    @FXML
-    private VBox folderBox;
-    @FXML
     public ListView<File> songList;
     @FXML
     private TextField pathField;
 
     private Stage stage;
-    private Scene scene;
-    private Parent root;
-    //Extra
+
+
     private File directory;
     private File[] files;
 
     private ArrayList<File> songs;
 
-    private int songNumber;
+    String name;
 
 
-
-    //Starting for browsing
-    public void setUserInformation(String username ,String email){
-        this.username.setText( username);
-        this.email.setText("Welcome "+username+" !");
+    public void setUserInformation(String username, String email) {
+        this.username.setText(username);
+        this.email.setText("Welcome " + username + " !");
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -81,28 +71,44 @@ public class LoggedInController implements Initializable {
                 FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("musicplayer.fxml"));
                 Scene scene = null;
                 try {
-                    scene = new Scene(fxmlLoader.load(), 707 ,431);
-                //    DBUtils.addSongs(mouseEvent,songList);
+                    scene = new Scene(fxmlLoader.load(), 707, 431);
+                        //DBUtils.addSongs(mouseEvent,songList);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
+//                PlayerController p=new PlayerController();
+//                p.setPath(pathField.getText());
             }
         });
-//        //extra
-        //
 
     }
     public void ChooseFile(ActionEvent event) {
         try {
 
-            String name=pathField.getText().toString();
+            name=pathField.getText();
             songs = new ArrayList<File>();
 
             directory = new File(name);
 
+            files = directory.listFiles();
+
+            if (files != null) {
+
+                for (File file : files) {
+                    songs.add(file);
+                }
+                songList.getItems().addAll(songs);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void display()
+    {
+        try {
             files = directory.listFiles();
 
             if (files != null) {
@@ -118,14 +124,7 @@ public class LoggedInController implements Initializable {
         }
     }
 
-    public void switchToScene1(ActionEvent event) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("logged-in.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500,300);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
 
     public void switchToScene2(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("musicplayer.fxml"));

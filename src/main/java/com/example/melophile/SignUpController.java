@@ -34,7 +34,7 @@ public class SignUpController implements Initializable {
             public void handle(ActionEvent event) {
                 if(!username.getText().trim().isEmpty() && !password.getText().trim().isEmpty()){
 
-                    DBUtils.signUpUser(event , username.getText(),password.getText(), email.getText());
+                    DBUtils.signUpUser(event , username.getText(),password.getText(), email.getText(),confirmPassword.getText());
                 }else{
                     System.out.println("Please Fill in all information");
                     Alert alert = new Alert(Alert.AlertType.ERROR);

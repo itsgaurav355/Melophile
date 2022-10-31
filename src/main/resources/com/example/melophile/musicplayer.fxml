@@ -44,22 +44,17 @@
             </font>
         </Button>
         <ComboBox fx:id="speedBox" layoutX="430.0" layoutY="384.0" onAction="#changeSpeed" prefHeight="46.0" prefWidth="79.0" promptText="SPEED" />
-        <Slider fx:id="volumeSlider" layoutX="522.0" layoutY="392.0" max="100.0" prefHeight="25.0" prefWidth="169.0" value="50.0" />
-      <ImageView fitHeight="214.0" fitWidth="226.0" layoutX="52.0" layoutY="99.0">
+      <ImageView blendMode="SRC_ATOP" fitHeight="178.0" fitWidth="181.0" layoutX="259.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@melophile.png" />
+            <Image url="@image" />
          </image>
       </ImageView>
+        <Slider fx:id="volumeSlider" layoutX="522.0" layoutY="392.0" max="100.0" prefHeight="25.0" prefWidth="169.0" value="50.0" />
       <Button layoutY="1.0" mnemonicParsing="false" onAction="#switchToScene1" text="Back" />
-      <Label fx:id="songLabel1" alignment="CENTER" layoutX="373.0" layoutY="118.0" prefHeight="38.0" prefWidth="331.0" text="MP3 Player" textFill="#00ff1a">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="songLabel2" alignment="CENTER" layoutX="292.0" layoutY="118.0" prefHeight="18.0" prefWidth="79.0" text="Song:" textFill="#00ff1a">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
+      <ImageView fx:id="backgroundImage" blendMode="LIGHTEN" fitHeight="271.0" fitWidth="263.0" layoutX="221.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img_4.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>

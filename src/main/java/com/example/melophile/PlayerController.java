@@ -2,12 +2,16 @@ package com.example.melophile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -21,11 +25,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.w3c.dom.events.MouseEvent;
 
 public class PlayerController implements Initializable{
 
@@ -41,8 +48,10 @@ public class PlayerController implements Initializable{
     private Slider volumeSlider;
     @FXML
     private ProgressBar songProgressBar;
+//    @FXML
+//    private Label songLabel1;
     @FXML
-    private Label songLabel1;
+    ImageView backgroundImage;
 
 
     private Media media;
@@ -60,8 +69,10 @@ public class PlayerController implements Initializable{
     private TimerTask task;
 
     private boolean running;
+    RotateTransition rotate=new RotateTransition();
 
-public void switchToScene1(ActionEvent event) throws IOException {
+
+    public void switchToScene1(ActionEvent event) throws IOException {
     mediaPlayer.stop();
     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("logged-in.fxml"));
     Scene scene = new Scene(fxmlLoader.load(), 707, 431);
@@ -74,28 +85,24 @@ public void switchToScene1(ActionEvent event) throws IOException {
 
         try {
 
-
+            String path="/C://Users//Gaurav//Downloads//Songs/";
             songs = new ArrayList<File>();
 
-            directory = new File("/C://Users//Gaurav//Downloads//New folder/");
+            directory = new File(path);
 
             files = directory.listFiles();
 
             if (files != null) {
 
                 for (File file : files) {
-
                     songs.add(file);
                 }
             }
-
-
 
             media = new Media(songs.get(songNumber).toURI().toString());
             mediaPlayer = new MediaPlayer(media);
 
             songLabel.setText(songs.get(songNumber).getName());
-            songLabel1.setText(songs.get(songNumber).getName());
 
 
             for (int i = 0; i < speeds.length; i++) {
@@ -115,14 +122,24 @@ public void switchToScene1(ActionEvent event) throws IOException {
             });
 
             songProgressBar.setStyle("-fx-accent: #00FF00;");
+
+            rotate.setNode(backgroundImage);
+
+            rotate.setDuration(Duration.millis(10000));
+            rotate.setCycleCount(TranslateTransition.INDEFINITE);
+            rotate.setInterpolator(Interpolator.LINEAR);
+            rotate.setByAngle(360);
+
         } catch (Exception e) {
             System.out.println(e);
         }
-    }
+
+}
 
     public void playMedia() {
 
         beginTimer();
+        rotate.playFromStart();
         changeSpeed(null);
         mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
         mediaPlayer.play();
@@ -131,6 +148,7 @@ public void switchToScene1(ActionEvent event) throws IOException {
     public void pauseMedia() {
 
         cancelTimer();
+        rotate.stop();
         mediaPlayer.pause();
     }
 
@@ -145,7 +163,7 @@ public void switchToScene1(ActionEvent event) throws IOException {
         if(songNumber > 0) {
 
             songNumber--;
-
+            rotate.playFromStart();
             mediaPlayer.stop();
 
             if(running) {
@@ -157,7 +175,6 @@ public void switchToScene1(ActionEvent event) throws IOException {
             mediaPlayer = new MediaPlayer(media);
 
             songLabel.setText(songs.get(songNumber).getName());
-            songLabel1.setText(songs.get(songNumber).getName());
 
             playMedia();
         }
@@ -198,7 +215,7 @@ public void switchToScene1(ActionEvent event) throws IOException {
             mediaPlayer = new MediaPlayer(media);
 
             songLabel.setText(songs.get(songNumber).getName());
-            songLabel1.setText(songs.get(songNumber).getName());
+          rotate.playFromStart();
 
             playMedia();
         }
@@ -212,7 +229,6 @@ public void switchToScene1(ActionEvent event) throws IOException {
             mediaPlayer = new MediaPlayer(media);
 
             songLabel.setText(songs.get(songNumber).getName());
-            songLabel1.setText(songs.get(songNumber).getName());
 
             playMedia();
         }
@@ -245,7 +261,7 @@ public void switchToScene1(ActionEvent event) throws IOException {
                 songProgressBar.setProgress(current/end);
 
                 if(current/end == 1) {
-
+                    rotate.stop();
                     cancelTimer();
                 }
             }

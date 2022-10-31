@@ -28,7 +28,7 @@ public class HelloApplication extends Application {
 
         stage.show();
 
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
             @Override
             public void handle(WindowEvent arg0) {
                 arg0.consume();

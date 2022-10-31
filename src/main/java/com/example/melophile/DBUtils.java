@@ -44,7 +44,7 @@ public class DBUtils {
         stage.setScene(new Scene(root , 707,431));
         stage.show();
     }
-    public static void signUpUser(ActionEvent event , String username ,String password ,String email){
+    public static void signUpUser(ActionEvent event , String username ,String password ,String email,String confirmPassword){
         Connection connection=null;
         PreparedStatement psInsert =null;
         PreparedStatement psCheckUserExists =null;
@@ -62,14 +62,20 @@ public class DBUtils {
                 alert.show();
             }
             else{
-                psInsert =connection.prepareStatement("INSERT INTO users (username ,password,email_id) VALUES (? , ? ,?)");
-                psInsert.setString(1,username);
-                psInsert.setString(2,password);
-                psInsert.setString(3,email);
-                psInsert.executeUpdate();
+                if(password.equals(confirmPassword) && email.contains("@")) {
+                    psInsert = connection.prepareStatement("INSERT INTO users (username ,password,email_id) VALUES (? , ? ,?)");
+                    psInsert.setString(1, username);
+                    psInsert.setString(2, password);
+                    psInsert.setString(3, email);
+                    psInsert.executeUpdate();
 
-                changeScene(event ,"logged-in.fxml","Welcome",username,email);
-
+                    changeScene(event, "logged-in.fxml", "Welcome", username, email);
+                }else{
+                    System.out.println("Password is Not matching ");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Your confirm password is not matching with your password Or Wrong email please try again");
+                    alert.show();
+                }
             }
         }catch (SQLException e)
         {
@@ -106,18 +112,22 @@ public class DBUtils {
             }
         }
     }
+
     /*
-    public static ListView<File> addSongs(MouseEvent event , ListView<File> songs){
+    public static void addSongs(MouseEvent event , ListView<File> songs){
         Connection connection=null;
         PreparedStatement psInsert =null;
         PreparedStatement psCheckUserExists =null;
         ResultSet resultSet =null;
-        ListView<String> songsList = null;
+       // ListView<String> songsList = null;
         try{
             connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/login","root","1234");
             psCheckUserExists= connection.prepareStatement("SELECT * FROM songs WHERE song = ? ");
-
-            psCheckUserExists.setString(1,songs.getItems().toString());
+            String song = null;
+            if(!songs.getSelectionModel().isEmpty()){
+                    song=songs.getItems().toString();
+                }
+            psCheckUserExists.setString(1,song);
             resultSet = psCheckUserExists.executeQuery();
             if(resultSet.isBeforeFirst() ){
                 System.out.println("Song Already Exists ! ");
@@ -126,7 +136,15 @@ public class DBUtils {
                 alert.show();
             }
             else{
-                String song=songs.getItems().toString();
+                char name[];
+                 song=songs.getItems().toString();
+                System.out.println(song);
+                for(int i=0;i<song.length();i++){
+                    if(song.charAt(i)==92){
+                        name=0;
+                }else{
+
+                    }
                 psInsert =connection.prepareStatement("INSERT INTO songs (song) VALUES (?)");
                 psInsert.setString(1,song);
                 psInsert.executeUpdate();
@@ -134,7 +152,8 @@ public class DBUtils {
                     String temp=songs.getItems().toString();
                 //  songsList.setItems();
                 }
-                return songsList;
+            //    System.out.println(songsList);
+             ///   return songsList;
 
             }
         }catch (SQLException e)
@@ -171,10 +190,12 @@ public class DBUtils {
                 }
             }
         }
-        return songsList;
+       // return songsList;
     }
 
      */
+
+     //
     public static void logInUser(ActionEvent event , String username ,String password){
     Connection connection=null;
     PreparedStatement preparedStatement=null;
