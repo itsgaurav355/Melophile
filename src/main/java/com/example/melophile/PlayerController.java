@@ -56,6 +56,10 @@ public class PlayerController implements Initializable{
 
     private Media media;
     private MediaPlayer mediaPlayer;
+    private String name;
+//    public PlayerController(String name) {
+//        this.name=name;
+//    }
 
     private File directory;
     private File[] files;
@@ -77,6 +81,8 @@ public class PlayerController implements Initializable{
     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("logged-in.fxml"));
     Scene scene = new Scene(fxmlLoader.load(), 707, 431);
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        LoggedInController l=new LoggedInController();
+//        l.display(name);
     stage.setScene(scene);
     stage.show();
 }

@@ -23,7 +23,9 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ResourceBundle;
 
 public class LoggedInController implements Initializable {
@@ -72,53 +74,40 @@ public class LoggedInController implements Initializable {
                 Scene scene = null;
                 try {
                     scene = new Scene(fxmlLoader.load(), 707, 431);
-                        //DBUtils.addSongs(mouseEvent,songList);
+                    //    DBUtils.addSongs(mouseEvent,songList);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
-//                PlayerController p=new PlayerController();
-//                p.setPath(pathField.getText());
             }
         });
 
     }
     public void ChooseFile(ActionEvent event) {
         try {
+//            ArrayList<ResultSet> n=new ArrayList<>();
+//            ArrayList<ResultSet> s=DBUtils.retrieve(event,n);
+//            if(!s.isEmpty()){
+//                songList.getItems().addAll((Collection<? extends File>) s);
+//           }else {
+                name = pathField.getText();
+                songs = new ArrayList<File>();
 
-            name=pathField.getText();
-            songs = new ArrayList<File>();
+                directory = new File(name);
 
-            directory = new File(name);
+                files = directory.listFiles();
 
-            files = directory.listFiles();
+                if (files != null) {
 
-            if (files != null) {
-
-                for (File file : files) {
-                    songs.add(file);
+                    for (File file : files) {
+                        DBUtils.addSongs(file);
+                        songs.add(file);
+                    }
+                    songList.getItems().addAll(songs);
                 }
-                songList.getItems().addAll(songs);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void display()
-    {
-        try {
-            files = directory.listFiles();
-
-            if (files != null) {
-
-                for (File file : files) {
-
-                    songs.add(file);
-                }
-                songList.getItems().addAll(songs);
-            }
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

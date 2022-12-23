@@ -6,8 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ListView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 //import javax.xml.transform.Result;
@@ -15,7 +13,7 @@ import java.io.File;
 import java.sql.*;
 
 import java.io.IOException;
-
+import java.util.ArrayList;
 
 
 public class DBUtils {
@@ -112,49 +110,81 @@ public class DBUtils {
             }
         }
     }
-
     /*
-    public static void addSongs(MouseEvent event , ListView<File> songs){
+    public static ArrayList<ResultSet> retrieve(ActionEvent actionEvent, ArrayList<ResultSet> song)
+    {
+        Connection connection=null;
+        PreparedStatement psInsert =null;
+        PreparedStatement psCheckUserExists =null;
+        ResultSet resultSet =null;
+        // ListView<String> songsList = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/login", "root", "1234");
+            psCheckUserExists = connection.prepareStatement("SELECT * FROM songs");
+
+            resultSet = psCheckUserExists.executeQuery();
+            while(resultSet.next()){
+                song.add(resultSet);
+            }
+            return song;
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }finally{
+            if(resultSet != null){
+                try{
+                    resultSet.close();
+                }catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if(psCheckUserExists != null){
+                try {
+                    psCheckUserExists.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(psInsert != null){
+
+                try {
+                    psInsert.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(connection != null){
+                try{
+                    connection.close();
+                }catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+       return song;
+    }
+
+     */
+    //
+    public static void addSongs(File songs){
         Connection connection=null;
         PreparedStatement psInsert =null;
         PreparedStatement psCheckUserExists =null;
         ResultSet resultSet =null;
        // ListView<String> songsList = null;
-        try{
-            connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/login","root","1234");
-            psCheckUserExists= connection.prepareStatement("SELECT * FROM songs WHERE song = ? ");
-            String song = null;
-            if(!songs.getSelectionModel().isEmpty()){
-                    song=songs.getItems().toString();
-                }
-            psCheckUserExists.setString(1,song);
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/login", "root", "1234");
+            psCheckUserExists = connection.prepareStatement("SELECT * FROM songs WHERE si = ? ");
+            String song = songs.toString();
+            psCheckUserExists.setString(1, song);
             resultSet = psCheckUserExists.executeQuery();
-            if(resultSet.isBeforeFirst() ){
-                System.out.println("Song Already Exists ! ");
+            if (resultSet.isBeforeFirst()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("You cannot add this song it is already exist");
-                alert.show();
-            }
-            else{
-                char name[];
-                 song=songs.getItems().toString();
-                System.out.println(song);
-                for(int i=0;i<song.length();i++){
-                    if(song.charAt(i)==92){
-                        name=0;
-                }else{
-
-                    }
-                psInsert =connection.prepareStatement("INSERT INTO songs (song) VALUES (?)");
-                psInsert.setString(1,song);
-                psInsert.executeUpdate();
-                while(resultSet.next()){
-                    String temp=songs.getItems().toString();
-                //  songsList.setItems();
-                }
-            //    System.out.println(songsList);
-             ///   return songsList;
-
+            } else {
+                psInsert = connection.prepareStatement("INSERT INTO songs (si) VALUES (?)");
+                    psInsert.setString(1, song);
+                    psInsert.executeUpdate();
             }
         }catch (SQLException e)
         {
@@ -193,7 +223,7 @@ public class DBUtils {
        // return songsList;
     }
 
-     */
+     //
 
      //
     public static void logInUser(ActionEvent event , String username ,String password){
